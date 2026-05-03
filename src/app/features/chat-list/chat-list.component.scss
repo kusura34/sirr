@@ -1,0 +1,125 @@
+$sirr-bg-sidebar: #0D1F16; // Из блока Backgrounds
+$sirr-bg-hover: #21563D;
+$sirr-primary: #0F8A4B;
+$sirr-text-main: #FFFFFF;
+$sirr-text-muted: #9CA3AF;
+$sirr-border: #1E4D36;
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $sirr-bg-sidebar;
+  border-right: 1px solid $sirr-border;
+  width: 350px; // Фиксированная ширина сайдбара
+}
+
+.search-section {
+  padding: 20px;
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #07130D;
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 10px;
+    color: $sirr-text-muted;
+
+    input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: $sirr-text-main;
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+}
+
+.chats-list {
+  flex: 1;
+  overflow-y: auto;
+
+  .chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: $sirr-bg-hover;
+    }
+
+    &.active {
+      background-color: $sirr-bg-hover;
+      border-left: 4px solid $sirr-primary;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      .chat-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .online-status {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        background-color: $sirr-primary;
+        border: 2px solid $sirr-bg-sidebar;
+        border-radius: 50%;
+      }
+    }
+
+    .chat-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow: hidden;
+
+      .chat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .chat-name {
+        color: $sirr-text-main;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .chat-time {
+        font-size: 12px;
+        color: $sirr-text-muted;
+      }
+
+      .last-message {
+        font-size: 13px;
+        color: $sirr-text-muted;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .unread-badge {
+        background-color: $sirr-primary;
+        color: white;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 10px;
+        min-width: 18px;
+        text-align: center;
+      }
+    }
+  }
+}

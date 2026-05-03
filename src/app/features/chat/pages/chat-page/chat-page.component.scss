@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100vh;      /* Растягиваем на всю высоту экрана */
   max-height: 100vh;
-  background-color: #0F172A; /* Цвет фона из вашей палитры Sirr */
+  background-color: #07130D; /* Цвет фона из вашей палитры Sirr */
   overflow: hidden;   /* Чтобы само окно чата не дергалось */
 }
 
@@ -20,7 +20,7 @@
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #374151;
+    background-color: #21563D;
     border-radius: 10px;
   }
 }

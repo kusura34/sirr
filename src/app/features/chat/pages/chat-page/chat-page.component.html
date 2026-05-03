@@ -1,12 +1,8 @@
-<div class="chat-wrapper">
-  <app-chat-header></app-chat-header>
-
-  <div class="messages-viewport">
-    <app-chat-message 
-      *ngFor="let msg of messages" 
-      [message]="msg">
-    </app-chat-message>
+<div class="app-layout">
+  <app-chat-list></app-chat-list>
+  
+  <div class="chat-area">
+    <!-- Angular сам решит: показать заглушку или окно чата -->
+    <router-outlet></router-outlet> 
   </div>
-
-  <app-chat-input (onSend)="handleSendMessage($event)"></app-chat-input>
 </div>

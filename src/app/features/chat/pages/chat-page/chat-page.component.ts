@@ -3,6 +3,8 @@ import { ChatHeaderComponent } from "../../components/chat-header/chat-header.co
 import { ChatMessageComponent } from "../../components/chat-message/chat-message.component";
 import { ChatInputComponent } from "../../components/chat-input/chat-input.component";
 import { CommonModule } from "@angular/common";
+import { ChatListComponent } from "../../../chat-list/chat-list.component";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-chat-page",
@@ -11,17 +13,12 @@ import { CommonModule } from "@angular/common";
     ChatMessageComponent,
     ChatInputComponent,
     CommonModule,
-  ],
+    ChatListComponent,
+    RouterOutlet
+],
   templateUrl: "./chat-page.component.html",
   styleUrl: "./chat-page.component.scss",
 })
 export class ChatPageComponent {
-handleSendMessage($event: string) {
-throw new Error('Method not implemented.');
-}
-  messages = [
-  { text: 'Ассаляму аляйкум! Как продвигается разработка Sirr?', isMine: false, timestamp: new Date(), isRead: true },
-  { text: 'Уа аляйкум ассалям! Верстаю компоненты на Angular', isMine: true, timestamp: new Date(), isRead: true },
-  { text: 'Понятно, пусть Аллаh поможет', isMine: false, timestamp: new Date(), isRead: false }
-];
+
 }
