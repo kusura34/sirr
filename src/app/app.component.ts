@@ -5,7 +5,7 @@ import { ChatListComponent } from "./features/chat-list/chat-list.component";
 
 @Component({
   selector: 'app-root',
-  imports: [ ChatListComponent, RouterOutlet],
+  imports: [ RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

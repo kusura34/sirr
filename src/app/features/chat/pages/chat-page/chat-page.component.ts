@@ -9,9 +9,6 @@ import { RouterOutlet } from "@angular/router";
 @Component({
   selector: "app-chat-page",
   imports: [
-    ChatHeaderComponent,
-    ChatMessageComponent,
-    ChatInputComponent,
     CommonModule,
     ChatListComponent,
     RouterOutlet
