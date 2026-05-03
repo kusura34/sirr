@@ -1,0 +1,16 @@
+.app-layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex-shrink: 0; // Сайдбар не сжимается
+}
+
+.chat-window {
+  flex: 1; // Чат занимает всё остальное место
+  display: flex;
+  flex-direction: column;
+}

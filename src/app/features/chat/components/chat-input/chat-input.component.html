@@ -1,0 +1,26 @@
+<div class="chat-input-container">
+  <div class="input-wrapper">
+    <button class="icon-btn attachment">
+      <i class="lucide-paperclip"></i>
+    </button>
+
+    <input 
+      type="text" 
+      [(ngModel)]="messageText" 
+      (keyup.enter)="sendMessage()" 
+      placeholder="Напишите сообщение..."
+      class="message-input"
+    >
+
+    <button class="icon-btn emoji">
+      <i class="lucide-smile"></i>
+    </button>
+  </div>
+
+  <button 
+    class="send-btn" 
+    [disabled]="!messageText.trim()" 
+    (click)="sendMessage()">
+    <img class="lucide-send" src="icons/send.svg" alt="Send">
+  </button>
+</div>

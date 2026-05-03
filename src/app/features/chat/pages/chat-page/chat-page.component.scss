@@ -1,0 +1,31 @@
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;      /* Растягиваем на всю высоту экрана */
+  max-height: 100vh;
+  background-color: #07130D; /* Цвет фона из вашей палитры Sirr */
+  overflow: hidden;   /* Чтобы само окно чата не дергалось */
+}
+
+.messages-viewport {
+  flex: 1;            /* Занимает всё доступное место между хедером и инпутом */
+  overflow-y: auto;   /* Включает вертикальную прокрутку только для сообщений */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  /* Кастомизация скроллбара под темную тему Sirr */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #21563D;
+    border-radius: 10px;
+  }
+}
+
+app-chat-header, 
+app-chat-input {
+  flex-shrink: 0;     /* Запрещаем хедеру и инпуту сжиматься */
+}
