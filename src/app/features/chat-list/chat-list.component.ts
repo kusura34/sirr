@@ -1,26 +1,29 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CHATS, ChatItem } from '../../shared/data/chats.data';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [DatePipe, CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss'
 })
 export class ChatListComponent {
+  chats: ChatItem[] = CHATS;
+  search = '';
 
-  selectChatId = 1;
+  get filteredChats(): ChatItem[] {
+    const query = this.search.trim().toLowerCase();
+    if (!query) {
+      return this.chats;
+    }
 
-  @Input() chat: any;
-
-  chats = [
-    { id: 1, name: 'Chat 1', lastMessage: 'Hello!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 2 },
-    { id: 2, name: 'Chat 2', lastMessage: 'How are you?', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: false, unreadCount: 0 },
-    { id: 3, name: 'Chat 3', lastMessage: 'Goodbye!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 5 }
-  ];
-  selectedChatId = false;
-  
-  selectChat(id: number) {
-
+    return this.chats.filter(chat =>
+      chat.name.toLowerCase().includes(query) ||
+      chat.lastMessage.toLowerCase().includes(query)
+    );
   }
 }

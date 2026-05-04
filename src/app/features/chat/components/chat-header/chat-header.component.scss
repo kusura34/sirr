@@ -1,86 +1,46 @@
-$sirr-bg-main: #07130D;
-$sirr-bg-card: #173D2A;
-$sirr-border: #1E4D36;
-$sirr-primary: #0F8A4B;
-$sirr-text-primary: #FFFFFF;
-$sirr-text-secondary: #D1D5DB;
-
 .chat-header {
+  height: 64px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background-color: $sirr-bg-card;
-  border-bottom: 1px solid $sirr-border;
-  color: $sirr-text-primary;
-  height: 64px;
+  background: var(--brand-gradient);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
 
   .user-info {
     display: flex;
     align-items: center;
     gap: 12px;
 
-    .avatar-container {
-      position: relative;
-      width: 40px;
-      height: 40px;
+    .back-button {
+      background: none;
+      border: none;
+    }
 
-      .avatar {
-        width: 100%;
-        height: 100%;
+    .avatar {
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         object-fit: cover;
-        background-color: $sirr-bg-main;
+        background-color: var(--bg-card);
       }
 
-      .status-indicator {
-        position: absolute;
-        bottom: 2px;
-        right: 2px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 2px solid $sirr-bg-card;
-        
-        &.online {
-          background-color: $sirr-primary; // Используем ваш зеленый
-        }
-      }
+    .name {
+      font-weight: 600;
+      color: var(--text-main);
+      margin: 0;
     }
-
-    .details {
-      .username {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
-
-      .status-text {
-        margin: 0;
-        font-size: 12px;
-        color: $sirr-text-secondary;
-      }
+    
+    .status.online {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
     }
   }
+}
 
-  .actions {
-    display: flex;
-    gap: 8px;
-
-    .action-btn {
-      background: transparent;
-      border: none;
-      color: $sirr-text-secondary;
-      padding: 8px;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.2s;
-
-      &:hover {
-        background-color: $sirr-border;
-        color: $sirr-text-primary;
-      }
-    }
+@media (max-width: 768px) {
+  .chat-header {
+    height: 56px;
+    padding: 0 12px;
   }
 }

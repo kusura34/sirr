@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-chat-header',
-  imports: [],
+  standalone: true,
   templateUrl: './chat-header.component.html',
-  styleUrl: './chat-header.component.scss'
+  styleUrl: './chat-header.component.scss',
+  imports: [RouterLink],
 })
 export class ChatHeaderComponent {
-
+  @Input() chatName: string | null = '';
 }

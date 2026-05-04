@@ -1,60 +1,48 @@
-// Цвета из вашего макета
-$my-message-bg: #19B45B;
-$other-message-bg: #173D2A;
-$text-primary: #FFFFFF;
-$text-muted: #9CA3AF;
-$text-secondary: #D1D5DB;
-
 .message-container {
   display: flex;
-  margin-bottom: 12px;
   width: 100%;
-  justify-content: flex-start; // По умолчанию сообщения слева
+  margin-bottom: 4px;
 
-  &.is-mine {
-    justify-content: flex-end; // Ваши сообщения справа
-
-    .message-bubble {
-      background-color: $my-message-bg;
-      border-radius: 16px 16px 2px 16px; // Скругление для "своего" сообщения
-      color: #FFFFFF;
-    }
-
-    .message-meta {
-      justify-content: flex-end;
-      color: rgba(255, 255, 255, 0.8);
-    }
-  }
-
-  .message-bubble {
+  .bubble {
     max-width: 70%;
-    padding: 10px 14px;
-    background-color: $other-message-bg;
-    border-radius: 16px 16px 16px 2px; // Скругление для "чужого" сообщения
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: $text-primary;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background-color: var(--bg-card);
+    color: var(--text-main);
     position: relative;
-    word-wrap: break-word;
+    font-family: "Inter", sans-serif;
+    border: 1px solid var(--border);
   }
 
-  .message-text {
-    font-size: 15px;
-    line-height: 1.4;
+  &.mine {
+    justify-content: flex-end;
+
+    .bubble {
+      background: var(--brand-gradient);
+      border-bottom-right-radius: 2px;
+      border-color: var(--brand-main);
+    }
   }
 
-  .message-meta {
+  .meta {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
+    font-size: 0.7rem;
+    opacity: 0.7;
     margin-top: 4px;
-    font-size: 11px;
-    color: $text-muted;
+  }
 
-    .status-icon {
-      font-style: normal;
-      &.read {
-        color: #FFFFFF; // Или оставить светлым на зеленом фоне
-      }
+  .text {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 768px) {
+  .message-container {
+    .bubble {
+      max-width: 86%;
     }
   }
 }

@@ -1,22 +1,10 @@
 <header class="chat-header">
   <div class="user-info">
-    <div class="avatar-container">
-      <img src="/images/avatar-placeholder.jpg" alt="User Avatar" class="avatar">
-      <span class="status-indicator online"></span>
+    <button class="back-button" routerLink="chat"><img src="icons/back.svg" alt=""></button>
+    <img src="images/avatar-placeholder.jpg" class="avatar">
+    <div class="text-info">
+      <h3 class="name">{{ chatName || "Неизвестный чат" }}</h3>
+      <span class="status online">В сети</span>
     </div>
-    
-    <div class="details">
-      <h2 class="username">Александр Иванов</h2>
-      <p class="status-text">В сети</p>
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="action-btn" title="Поиск">
-      <i class="lucide-search"></i> 
-    </button>
-    <button class="action-btn" title="Меню">
-      <i class="lucide-more-vertical"></i>
-    </button>
   </div>
 </header>

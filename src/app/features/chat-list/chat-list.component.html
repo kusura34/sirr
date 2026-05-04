@@ -1,35 +1,32 @@
-<div class="sidebar-container">
-  <!-- Поиск -->
-  <div class="search-section">
-    <div class="search-bar">
-      <i class="lucide-search"></i>
-      <input type="text" placeholder="Поиск чатов...">
-    </div>
+<div class="list-container">
+  <div class="list-search">
+    <input
+      type="search"
+      [(ngModel)]="search"
+      placeholder="Поиск по чатам..."
+      class="search-input"
+    >
   </div>
 
-  <!-- Список чатов -->
-  <div class="chats-list">
-    <div *ngFor="let chat of chats" 
-         class="chat-item" 
-         (click)="selectChat(chat.id)">
-      
-      <div class="avatar-wrapper">
-        <img [src]="chat.avatar" alt="Avatar" class="chat-avatar">
-        <span *ngIf="chat.online" class="online-status"></span>
+  <div *ngFor="let chat of filteredChats" 
+       [routerLink]="['/chat', chat.id]" 
+       routerLinkActive="active" 
+       class="chat-item">
+    <div class="avatar-box">
+      <img [src]="chat.avatar" class="avatar">
+      <div *ngIf="chat.online" class="online-indicator"></div>
+    </div>
+    <div class="content">
+      <div class="top">
+        <span class="name">{{ chat.name }}</span>
+        <span class="time">{{ chat.timestamp | date:'HH:mm' }}</span>
       </div>
-
-      <div class="chat-info">
-        <div class="chat-row">
-          <span class="chat-name">{{ chat.name }}</span>
-          <span class="chat-time">{{ chat.timestamp | date:'HH:mm' }}</span>
-        </div>
-        <div class="chat-row">
-          <p class="last-message">{{ chat.lastMessage }}</p>
-          <span *ngIf="chat.unreadCount > 0" class="unread-badge">
-            {{ chat.unreadCount }}
-          </span>
-        </div>
+      <div class="bottom">
+        <p class="last-msg">{{ chat.lastMessage }}</p>
+        <span *ngIf="chat.unreadCount > 0" class="badge">{{ chat.unreadCount }}</span>
       </div>
     </div>
   </div>
+
+  <p *ngIf="!filteredChats.length" class="empty-state">Ничего не найдено</p>
 </div>

@@ -1,6 +1,7 @@
 export interface Message {
+  id?: string;
   text: string;
-  timestamp: Date;
-  isMine: boolean; // true, если отправили вы
+  senderId: string;
+  timestamp: any; 
   isRead: boolean;
 }
