@@ -12,6 +12,14 @@
     align-items: center;
     gap: 12px;
 
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background-color: #0F8A4B;
+      }
+
     .name {
       font-weight: 600;
       color: #FFFFFF;

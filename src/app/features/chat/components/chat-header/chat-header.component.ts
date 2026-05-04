@@ -3,14 +3,8 @@ import { Component, Input } from "@angular/core";
 @Component({
   selector: 'app-chat-header',
   standalone: true,
-  template: `
-    <header class="header">
-      <div class="user-info">
-        <h3>Чат: {{ chatId }}</h3>
-        <span class="status">В сети</span>
-      </div>
-    </header>
-  `
+  templateUrl: './chat-header.component.html',
+  styleUrl: './chat-header.component.scss',
 })
 export class ChatHeaderComponent {
   @Input() chatId: string | null = '';
