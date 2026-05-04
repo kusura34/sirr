@@ -7,19 +7,20 @@
     max-width: 70%;
     padding: 8px 12px;
     border-radius: 12px;
-    background-color: #1B4B5B; // Цвет чужих сообщений
-    color: #FFFFFF;
+    background-color: var(--bg-card);
+    color: var(--text-main);
     position: relative;
-    font-family: 'Montserrat', sans-serif; // Твой выбранный шрифт
+    font-family: "Inter", sans-serif;
+    border: 1px solid var(--border);
   }
 
-  // Твои сообщения (улетают вправо)
   &.mine {
     justify-content: flex-end;
 
     .bubble {
-      background-color: #19B45B; // Цвет собственных сообщений в теме
+      background: var(--brand-gradient);
       border-bottom-right-radius: 2px;
+      border-color: var(--brand-main);
     }
   }
 
@@ -31,5 +32,17 @@
     font-size: 0.7rem;
     opacity: 0.7;
     margin-top: 4px;
+  }
+
+  .text {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 768px) {
+  .message-container {
+    .bubble {
+      max-width: 86%;
+    }
   }
 }

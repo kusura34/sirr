@@ -1,10 +1,8 @@
-import { Component } from "@angular/core";
-import { ChatHeaderComponent } from "../../components/chat-header/chat-header.component";
-import { ChatMessageComponent } from "../../components/chat-message/chat-message.component";
-import { ChatInputComponent } from "../../components/chat-input/chat-input.component";
 import { CommonModule } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { NavigationEnd, Router, RouterOutlet } from "@angular/router";
+import { filter, map, startWith } from "rxjs";
 import { ChatListComponent } from "../../../chat-list/chat-list.component";
-import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-chat-page",
@@ -17,5 +15,10 @@ import { RouterOutlet } from "@angular/router";
   styleUrl: "./chat-page.component.scss",
 })
 export class ChatPageComponent {
-
+  private router = inject(Router);
+  isChatOpened$ = this.router.events.pipe(
+    filter(event => event instanceof NavigationEnd),
+    startWith(null),
+    map(() => /^\/chat\/[^/]+$/.test(this.router.url))
+  );
 }

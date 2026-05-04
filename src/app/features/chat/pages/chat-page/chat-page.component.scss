@@ -1,19 +1,54 @@
 .chat-layout {
   display: flex;
   height: 100vh;
-  background-color: #0F8A4B; // Твой обновленный темный фон
+  background-color: var(--bg-main);
   overflow: hidden;
 
   app-chat-list {
     width: 350px;
-    border-right: 1px solid #1E4D36; // Границы
+    border-right: 1px solid var(--border);
     flex-shrink: 0;
+    background-color: var(--bg-secondary);
   }
 
-  main {
+  .chat-area {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     position: relative;
+    min-width: 0;
+    background-color: var(--bg-surface);
+  }
+}
+
+@media (max-width: 992px) {
+  .chat-layout {
+    app-chat-list {
+      width: 290px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-layout {
+    flex-direction: column;
+
+    .chat-list {
+      width: 100%;
+      max-height: 40vh;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-area {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+
+  .chat-layout.chat-opened {
+    .chat-list {
+      display: none;
+    }
   }
 }

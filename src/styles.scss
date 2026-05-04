@@ -1,11 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
+:root {
+  --bg-main: #07130d;
+  --bg-secondary: #0d1f16;
+  --bg-surface: #123222;
+  --bg-card: #173d2a;
+
+  --brand-dark: #0b5d3a;
+  --brand-main: #0f8a4b;
+  --brand-light: #19b45b;
+  --brand-bright: #35d46e;
+
+  --text-main: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+
+  --border: #1e4d36;
+  --hover: #21563d;
+  --brand-gradient: linear-gradient(135deg, #0b5d3a 0%, #0f8a4b 50%, #19b45b 100%);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
 }
 
 body {
-      background-color: #07130D;
-      color: #FFFFFF;
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }

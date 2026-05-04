@@ -1,5 +1,14 @@
 <div class="list-container">
-  <div *ngFor="let chat of chats" 
+  <div class="list-search">
+    <input
+      type="search"
+      [(ngModel)]="search"
+      placeholder="Поиск по чатам..."
+      class="search-input"
+    >
+  </div>
+
+  <div *ngFor="let chat of filteredChats" 
        [routerLink]="['/chat', chat.id]" 
        routerLinkActive="active" 
        class="chat-item">
@@ -18,4 +27,6 @@
       </div>
     </div>
   </div>
+
+  <p *ngIf="!filteredChats.length" class="empty-state">Ничего не найдено</p>
 </div>

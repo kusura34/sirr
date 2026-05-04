@@ -1,5 +1,5 @@
-<div class="chat-layout">
-  <app-chat-list></app-chat-list>
+<div class="chat-layout" [class.chat-opened]="(isChatOpened$ | async)">
+  <app-chat-list class="chat-list"></app-chat-list>
   
   <div class="chat-area">
     <!-- Angular сам решит: показать заглушку или окно чата -->

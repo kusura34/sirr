@@ -6,6 +6,7 @@ import { ChatHeaderComponent } from '../chat-header/chat-header.component';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
 import { ChatService } from '../../../../shared/services/chat.service';
+import { CHATS } from '../../../../shared/data/chats.data';
 
 @Component({
   selector: 'app-chat-window',
@@ -20,6 +21,9 @@ export class ChatWindowComponent {
   
   myId = 'current-user-id'; // Временно, пока нет Auth
   chatId$ = this.route.params.pipe(map(p => p['id']));
+  chatName$ = this.chatId$.pipe(
+    map(id => CHATS.find(chat => chat.id === id)?.name ?? `Чат #${id}`)
+  );
   
   messages$ = this.chatId$.pipe(
     switchMap(id => this.chatService.getMessages(id))

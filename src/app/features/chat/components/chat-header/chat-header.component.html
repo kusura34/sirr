@@ -1,8 +1,9 @@
 <header class="chat-header">
   <div class="user-info">
+    <button class="back-button" routerLink="chat"><img src="icons/back.svg" alt=""></button>
     <img src="images/avatar-placeholder.jpg" class="avatar">
     <div class="text-info">
-      <h3 class="name">{{ chatId }}</h3>
+      <h3 class="name">{{ chatName || "Неизвестный чат" }}</h3>
       <span class="status online">В сети</span>
     </div>
   </div>
