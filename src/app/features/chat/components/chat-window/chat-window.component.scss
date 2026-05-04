@@ -1,0 +1,23 @@
+.window-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages-viewport {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  
+  // Кастомный скроллбар в стиле Sirr
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #21563D;
+    border-radius: 10px;
+  }
+}

@@ -1,11 +1,9 @@
-<div class="message-container" [ngClass]="{'is-mine': message.isMine}">
-  <div class="message-bubble">
-    <div class="message-text">
-      {{ message.text }}
-    </div>
-    <div class="message-meta">
-      <span class="time">{{ message.timestamp | date:'HH:mm' }}</span>
-      <i *ngIf="message.isMine" class="status-icon" [class.read]="message.isRead">✓✓</i>
+<div class="message-container" [class.mine]="isMine">
+  <div class="bubble">
+    <p class="text">{{ message.text }}</p>
+    <div class="meta">
+      <span class="time">{{ message.timestamp?.toDate() | date:'HH:mm' }}</span>
+      <span *ngIf="isMine" class="status" [class.read]="message.isRead">✓✓</span>
     </div>
   </div>
 </div>

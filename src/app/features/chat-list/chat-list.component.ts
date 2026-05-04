@@ -1,26 +1,27 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [DatePipe, CommonModule],
-  templateUrl: './chat-list.component.html',
-  styleUrl: './chat-list.component.scss'
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  template: `
+    <div *ngFor="let chat of chats" 
+         [routerLink]="['/chat', chat.id]" 
+         routerLinkActive="active" 
+         class="chat-item">
+      <img [src]="chat.avatar" class="avatar">
+      <div class="info">
+        <div class="name">{{ chat.name }}</div>
+        <div class="last-msg">{{ chat.lastMessage }}</div>
+      </div>
+    </div>
+  `
 })
 export class ChatListComponent {
-
-  selectChatId = 1;
-
-  @Input() chat: any;
-
   chats = [
-    { id: 1, name: 'Chat 1', lastMessage: 'Hello!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 2 },
-    { id: 2, name: 'Chat 2', lastMessage: 'How are you?', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: false, unreadCount: 0 },
-    { id: 3, name: 'Chat 3', lastMessage: 'Goodbye!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 5 }
+    { id: '1', name: 'Александр Иванов', lastMessage: 'Привет!', avatar: 'images/avatar-placeholder.jpg' },
+    { id: '2', name: 'Kusura IT', lastMessage: 'Новый пост!', avatar: 'images/avatar-placeholder.jpg' }
   ];
-  selectedChatId = false;
-  
-  selectChat(id: number) {
-
-  }
 }

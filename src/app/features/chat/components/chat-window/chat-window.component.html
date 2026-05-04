@@ -1,12 +1,13 @@
-<div class="chat-wrapper">
-  <app-chat-header></app-chat-header>
-
+<div class="window-wrapper">
+  <app-chat-header [chatId]="(chatId$ | async)"></app-chat-header>
+  
   <div class="messages-viewport">
     <app-chat-message 
-      *ngFor="let msg of messages" 
-      [message]="msg">
+      *ngFor="let msg of (messages$ | async)" 
+      [message]="msg"
+      [isMine]="msg.senderId === myId">
     </app-chat-message>
   </div>
 
-  <app-chat-input (onSend)="handleSendMessage($event)"></app-chat-input>
+  <app-chat-input (onSend)="send($event)"></app-chat-input>
 </div>
