@@ -1,29 +1,31 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { CHATS, ChatItem } from '../../shared/data/chats.data';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../shared/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-chat-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss'
 })
 export class ChatListComponent {
-  chats: ChatItem[] = CHATS;
-  search = '';
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  get filteredChats(): ChatItem[] {
-    const query = this.search.trim().toLowerCase();
-    if (!query) {
-      return this.chats;
+  // Заглушка данных для тестов (потом заменим на данные из Firestore)
+  chats = [
+    { id: '1', name: 'Support', lastMessage: 'Как вам наш ягодный дизайн?', timestamp: new Date(), avatar: 'assets/img/logo.png', online: true },
+    { id: '2', name: 'Dev Team', lastMessage: 'Кэш почистили?', timestamp: new Date(), avatar: 'assets/img/avatar.png', online: false }
+  ];
+
+  async logout() {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth']);
+    } catch (e) {
+      console.error('Ошибка при выходе:', e);
     }
-
-    return this.chats.filter(chat =>
-      chat.name.toLowerCase().includes(query) ||
-      chat.lastMessage.toLowerCase().includes(query)
-    );
   }
 }

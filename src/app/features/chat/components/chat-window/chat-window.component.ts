@@ -5,7 +5,7 @@ import { map, switchMap } from 'rxjs';
 import { ChatHeaderComponent } from '../chat-header/chat-header.component';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
-import { ChatService } from '../../../../shared/services/chat.service';
+import { ChatService } from '../../../../shared/services/chat-service/chat.service';
 import { CHATS } from '../../../../shared/data/chats.data';
 
 @Component({
