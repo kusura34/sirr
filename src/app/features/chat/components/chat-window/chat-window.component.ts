@@ -1,8 +1,11 @@
-import { Component } from "@angular/core";
-import { ChatHeaderComponent } from "../chat-header/chat-header.component";
-import { ChatMessageComponent } from "../chat-message/chat-message.component";
-import { ChatInputComponent } from "../chat-input/chat-input.component";
-import { CommonModule } from "@angular/common";
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { map, switchMap } from 'rxjs';
+import { ChatHeaderComponent } from '../chat-header/chat-header.component';
+import { ChatInputComponent } from '../chat-input/chat-input.component';
+import { ChatMessageComponent } from '../chat-message/chat-message.component';
+import { ChatService } from '../../../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: "app-chat-window",

@@ -1,0 +1,49 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="logo">
+      <span class="sirr-text">Sirr</span>
+    </div>
+
+    <!-- Заголовок меняется в зависимости от режима -->
+    <h2 class="auth-title">{{ isLoginMode ? 'Вход' : 'Регистрация' }}</h2>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Поле ИМЯ: Показывается ТОЛЬКО при регистрации -->
+      <div class="input-group" *ngIf="!isLoginMode">
+        <label>Ваше имя/nickname</label>
+        <input type="text" formControlName="displayName" placeholder="Как вас зовут?">
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="example@mail.com">
+      </div>
+
+      <div class="input-group">
+        <label>Пароль</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="authForm.invalid">
+        {{ isLoginMode ? 'Войти' : 'Создать аккаунт' }}
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>или</span>
+    </div>
+
+    <button type="button" class="btn-google" (click)="loginGoogle()">
+      <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google">
+      Войти через Google
+    </button>
+
+    <p class="toggle-text">
+      {{ isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?' }}
+      <span (click)="toggleMode()">
+        {{ isLoginMode ? 'Зарегистрироваться' : 'Войти' }}
+      </span>
+    </p>
+  </div>
+</div>

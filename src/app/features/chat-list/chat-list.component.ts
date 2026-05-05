@@ -1,26 +1,31 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../shared/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [DatePipe, CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss'
 })
 export class ChatListComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  selectChatId = 1;
-
-  @Input() chat: any;
-
+  // Заглушка данных для тестов (потом заменим на данные из Firestore)
   chats = [
-    { id: 1, name: 'Chat 1', lastMessage: 'Hello!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 2 },
-    { id: 2, name: 'Chat 2', lastMessage: 'How are you?', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: false, unreadCount: 0 },
-    { id: 3, name: 'Chat 3', lastMessage: 'Goodbye!', timestamp: new Date(), avatar: 'images/avatar-placeholder.jpg', online: true, unreadCount: 5 }
+    { id: '1', name: 'Support', lastMessage: 'Как вам наш ягодный дизайн?', timestamp: new Date(), avatar: 'assets/img/logo.png', online: true },
+    { id: '2', name: 'Dev Team', lastMessage: 'Кэш почистили?', timestamp: new Date(), avatar: 'assets/img/avatar.png', online: false }
   ];
-  selectedChatId = false;
-  
-  selectChat(id: number) {
 
+  async logout() {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth']);
+    } catch (e) {
+      console.error('Ошибка при выходе:', e);
+    }
   }
 }

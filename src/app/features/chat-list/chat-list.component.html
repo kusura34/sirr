@@ -1,34 +1,32 @@
-<div class="sidebar-container">
-  <!-- Поиск -->
-  <div class="search-section">
-    <div class="search-bar">
-      <i class="lucide-search"></i>
-      <input type="text" placeholder="Поиск чатов...">
+<div class="sidebar">
+  <!-- Верхняя панель: Поиск + Logout -->
+  <div class="sidebar-header">
+    <div class="search-container">
+      <input type="text" placeholder="Поиск..." class="search-input">
+      <button class="logout-btn" (click)="logout()" title="Выйти" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path fill="currentColor" d="M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/>
+        </svg>
+      </button>
     </div>
   </div>
 
   <!-- Список чатов -->
-  <div class="chats-list">
+  <div class="chats-scroll">
     <div *ngFor="let chat of chats" 
-         class="chat-item" 
-         (click)="selectChat(chat.id)">
-      
+         [routerLink]="['/chat', chat.id]" 
+         routerLinkActive="active" 
+         class="chat-item">
       <div class="avatar-wrapper">
-        <img [src]="chat.avatar" alt="Avatar" class="chat-avatar">
-        <span *ngIf="chat.online" class="online-status"></span>
+        <img [src]="chat.avatar" class="avatar" alt="avatar">
+        <div *ngIf="chat.online" class="online-badge"></div>
       </div>
-
       <div class="chat-info">
-        <div class="chat-row">
-          <span class="chat-name">{{ chat.name }}</span>
-          <span class="chat-time">{{ chat.timestamp | date:'HH:mm' }}</span>
+        <div class="chat-top">
+          <span class="name">{{ chat.name }}</span>
+          <span class="time">{{ chat.timestamp | date:'HH:mm' }}</span>
         </div>
-        <div class="chat-row">
-          <p class="last-message">{{ chat.lastMessage }}</p>
-          <span *ngIf="chat.unreadCount > 0" class="unread-badge">
-            {{ chat.unreadCount }}
-          </span>
-        </div>
+        <p class="last-msg">{{ chat.lastMessage }}</p>
       </div>
     </div>
   </div>
