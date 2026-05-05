@@ -21,7 +21,7 @@
     .sirr-text {
       font-size: 2.5rem;
       font-weight: 800;
-      color: #C9184A; // Твой ягодный
+      color: #FFFFFF; // Твой ягодный
       letter-spacing: -1px;
     }
   }
@@ -50,7 +50,7 @@
     transition: border 0.3s;
 
     &:focus {
-      border-color: #C9184A;
+      border-color: #FFFFFF;
     }
   }
 }
@@ -60,7 +60,7 @@
   padding: 14px;
   border-radius: 12px;
   border: none;
-  background-color: #C9184A;
+  background-color: #333;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -117,7 +117,7 @@
   font-size: 0.9rem;
   opacity: 0.7;
   span {
-    color: #C9184A;
+    color: #0F8A4B;
     cursor: pointer;
     font-weight: 600;
     &:hover { text-decoration: underline; }

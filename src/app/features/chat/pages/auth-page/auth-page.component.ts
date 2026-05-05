@@ -30,13 +30,17 @@ export class AuthPageComponent {
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
-    // Если перешли в режим регистрации, можно добавить валидатор на имя
+    // Очищаем форму при переключении режима
+    this.authForm.reset();
+    
+    // Если перешли в режим регистрации, добавляем валидатор на имя
     if (!this.isLoginMode) {
       this.authForm.get('displayName')?.setValidators([Validators.required]);
     } else {
       this.authForm.get('displayName')?.clearValidators();
     }
     this.authForm.get('displayName')?.updateValueAndValidity();
+    this.authForm.updateValueAndValidity();
   }
 
   async loginGoogle() {
@@ -49,31 +53,34 @@ export class AuthPageComponent {
   }
 
   async onSubmit() {
-  if (this.authForm.invalid) return;
-  const { email, password, displayName } = this.authForm.value;
+    if (this.authForm.invalid) return;
+    const { email, password, displayName } = this.authForm.value;
 
-  try {
-    if (this.isLoginMode) {
-      await this.authService.signIn(email!, password!);
-      this.router.navigate(['/chat']);
-    } else {
-      // Регистрация
-      await this.authService.signUp(email!, password!, displayName || 'User');
-      
-      // Показываем сообщение вместо мгновенного редиректа
-      this.snackBar.open('Аккаунт создан! Пожалуйста, проверьте почту и подтвердите e-mail перед входом. ПРОВЕРЬТЕ РАЗДЕЛ СПАМА', 'ок', {
-        duration: 5000
-      });
-      this.isLoginMode = true; // Переключаем на вход
-      this.authForm.reset();
-    }
-  } catch (e: any) {
-    // Обработка ошибок Firebase (например, если почта уже занята)
-    if (e.code === 'auth/email-already-in-use') {
-      alert('Этот email уже занят.');
-    } else {
-      console.error("Ошибка:", e);
+    try {
+      if (this.isLoginMode) {
+        await this.authService.signIn(email!, password!);
+        this.router.navigate(['/chat']);
+      } else {
+        // Регистрация
+        await this.authService.signUp(email!, password!, displayName || 'User');
+        
+        // Показываем сообщение вместо мгновенного редиректа
+        this.snackBar.open('Аккаунт создан! Пожалуйста, проверьте почту и подтвердите e-mail перед входом. ПРОВЕРЬТЕ РАЗДЕЛ СПАМА', 'ок', {
+          duration: 5000
+        });
+        this.isLoginMode = true; // Переключаем на вход
+        this.authForm.reset();
+        this.authForm.get('displayName')?.clearValidators();
+        this.authForm.get('displayName')?.updateValueAndValidity();
+        this.authForm.updateValueAndValidity();
+      }
+    } catch (e: any) {
+      // Обработка ошибок Firebase (например, если почта уже занята)
+      if (e.code === 'auth/email-already-in-use') {
+        alert('Этот email уже занят.');
+      } else {
+        console.error("Ошибка:", e);
+      }
     }
   }
-}
 }
