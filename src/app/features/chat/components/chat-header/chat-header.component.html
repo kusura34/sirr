@@ -1,10 +1,13 @@
 <header class="chat-header">
   <div class="user-info">
     <button class="back-button" routerLink="chat"><img src="icons/back.svg" alt=""></button>
-    <img src="images/avatar-placeholder.jpg" class="avatar">
+    <div class="avatar-wrapper">
+      <img src="images/avatar-placeholder.jpg" class="avatar">
+      <span class="online-dot" [class.active]="isOnline"></span>
+    </div>
     <div class="text-info">
       <h3 class="name">{{ chatName || "Неизвестный чат" }}</h3>
-      <span class="status online">В сети</span>
+      <span class="status" [class.online]="isOnline">{{ isOnline ? "В сети" : "Не в сети" }}</span>
     </div>
   </div>
 </header>

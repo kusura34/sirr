@@ -21,8 +21,6 @@
   <button 
     class="send-btn" 
     [disabled]="!messageText.trim()" 
-    (mousedown)="keepKeyboardOpen($event)"
-    (touchstart)="keepKeyboardOpen($event)"
     (click)="sendMessage()">
     <img class="lucide-send" src="icons/send.svg" alt="Send">
   </button>

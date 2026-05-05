@@ -2,32 +2,52 @@
   <!-- Верхняя панель: Поиск + Logout -->
   <div class="sidebar-header">
     <div class="search-container">
-      <input type="text" placeholder="Поиск..." class="search-input" [(ngModel)]="search">
+      <input
+        #searchInput
+        type="text"
+        placeholder="Поиск по email..."
+        class="search-input"
+        (input)="onSearchChange($event)"
+      />
       <button class="logout-btn" (click)="logout()" title="Выйти" type="button">
-        <svg viewBox="0 0 24 24" width="20" height="20">
-          <path fill="currentColor" d="M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/>
-        </svg>
+        <img src="icons/logout.svg" alt="" />
       </button>
+    </div>
+
+    <!-- Результаты поиска -->
+    <div class="search-results" *ngIf="searchResults.length > 0">
+      <p class="section-title">Найденные пользователи:</p>
+      <div
+        *ngFor="let user of searchResults"
+        class="user-item"
+        (click)="startChat(user)"
+      >
+        <img [src]="user.photoURL" class="mini-avatar" />
+        <span>{{ user.displayName }}</span>
+      </div>
     </div>
   </div>
 
   <!-- Список чатов -->
   <div class="chats-scroll">
-    <div *ngFor="let chat of filteredChats" 
-         [routerLink]="['/chat', chat.id]" 
-         routerLinkActive="active" 
-         class="chat-item">
+    <div
+      *ngFor="let chat of filteredChats"
+      [routerLink]="['/chat', chat.id]"
+      routerLinkActive="active"
+      class="chat-item"
+    >
       <div class="avatar-wrapper">
-        <img [src]="chat.avatar" class="avatar" alt="avatar">
+        <img [src]="chat.avatar" class="avatar" alt="avatar" />
         <div *ngIf="chat.online" class="online-badge"></div>
       </div>
       <div class="chat-info">
         <div class="chat-top">
           <span class="name">{{ chat.name }}</span>
-          <span class="time">{{ chat.timestamp | date:'HH:mm' }}</span>
+          <span class="time">{{ chat.timestamp | date: "HH:mm" }}</span>
         </div>
         <p class="last-msg">{{ chat.lastMessage }}</p>
       </div>
+      <span class="unread-count" *ngIf="chat.unreadCount > 0">{{ chat.unreadCount }}</span>
     </div>
   </div>
 

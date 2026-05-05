@@ -1,11 +1,11 @@
 <div class="window-wrapper">
-  <app-chat-header [chatName]="(chatName$ | async)"></app-chat-header>
+  <app-chat-header [chatName]="(chatName$ | async)" [isOnline]="(isOnline$ | async)"></app-chat-header>
   
   <div class="messages-viewport">
     <app-chat-message 
       *ngFor="let msg of (messages$ | async)" 
       [message]="msg"
-      [isMine]="msg.senderId === myId">
+      [isMine]="msg.senderId === (myId$ | async)">
     </app-chat-message>
   </div>
 

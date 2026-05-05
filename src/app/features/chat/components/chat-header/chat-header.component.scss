@@ -11,29 +11,84 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    width: 100%;
 
     .back-button {
       background: none;
       border: none;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-main);
+      flex-shrink: 0;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
 
-    .avatar {
+    .avatar-wrapper {
+      position: relative;
+      flex-shrink: 0;
+
+      .avatar {
         width: 40px;
         height: 40px;
+        min-width: 40px;
         border-radius: 50%;
         object-fit: cover;
         background-color: var(--bg-card);
+        border: 1px solid var(--border);
+        flex-shrink: 0;
       }
 
-    .name {
-      font-weight: 600;
-      color: var(--text-main);
-      margin: 0;
+      .online-dot {
+        position: absolute;
+        right: 1px;
+        bottom: 1px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #6b7280;
+        border: 2px solid var(--bg-secondary);
+
+        &.active {
+          background: var(--brand-light);
+        }
+      }
     }
-    
-    .status.online {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
+
+    .text-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+
+      .name {
+        font-weight: 600;
+        color: var(--text-main);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .status {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        margin: 0;
+
+        &.online {
+          color: var(--brand-bright);
+        }
+      }
     }
   }
 }
@@ -42,5 +97,75 @@
   .chat-header {
     height: 56px;
     padding: 0 12px;
+
+    .user-info {
+      gap: 10px;
+
+      .back-button {
+        padding: 6px;
+      }
+
+      .avatar-wrapper {
+        .avatar {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+        }
+      }
+
+      .text-info {
+        .name {
+          font-size: 0.9rem;
+        }
+
+        .status {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-header {
+    height: 48px;
+    padding: 0 8px;
+
+    .user-info {
+      gap: 8px;
+
+      .back-button {
+        padding: 4px;
+        margin-right: -4px;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .avatar-wrapper {
+        .avatar {
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+        }
+
+        .online-dot {
+          width: 9px;
+          height: 9px;
+        }
+      }
+
+      .text-info {
+        .name {
+          font-size: 0.8rem;
+        }
+
+        .status {
+          font-size: 0.7rem;
+        }
+      }
+    }
   }
 }
