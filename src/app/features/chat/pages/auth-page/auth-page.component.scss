@@ -1,0 +1,189 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0F8A4B; // Твой темный фон
+  font-family: 'Montserrat', sans-serif;
+}
+
+.auth-card {
+  background: #1E4D36; // Чуть светлее фона
+  padding: 40px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+
+  .logo {
+    margin-bottom: 30px;
+    .sirr-text {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #C9184A; // Твой ягодный
+      letter-spacing: -1px;
+    }
+  }
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #21563D;
+    background: #0F8A4B;
+    color: white;
+    outline: none;
+    transition: border 0.3s;
+
+    &:focus {
+      border-color: #C9184A;
+    }
+  }
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background-color: #C9184A;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity 0.3s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-google {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #21563D;
+  background: white;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.divider {
+  margin: 25px 0;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #21563D;
+    left: 0;
+    top: 50%;
+  }
+  span {
+    background: #1E4D36;
+    padding: 0 10px;
+    position: relative;
+    color: #FFFFFF;
+    opacity: 0.6;
+    font-size: 0.8rem;
+  }
+}
+
+.toggle-text {
+  color: white;
+  margin-top: 25px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  span {
+    color: #C9184A;
+    cursor: pointer;
+    font-weight: 600;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* --- Адаптивность --- */
+
+@media (max-width: 480px) {
+  .auth-container {
+    align-items: flex-start; // На мобилках лучше начинать сверху
+    background-color: #1E4D36; // Убираем внешний фон, оставляем цвет карточки
+  }
+
+  .auth-card {
+    max-width: 100%;
+    height: 100vh; // Растягиваем на весь экран
+    border-radius: 0; // Убираем скругления на весь экран
+    box-shadow: none;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Центрируем форму внутри
+
+    .logo {
+      margin-bottom: 40px;
+      .sirr-text {
+        font-size: 3rem; // Делаем лого чуть больше для акцента
+      }
+    }
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+    
+    input {
+      padding: 14px; // Увеличиваем область нажатия (Touch Target)
+      font-size: 16px; // Предотвращает автоматический зум в iOS Safari
+    }
+  }
+
+  .btn-primary, .btn-google {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}
+
+// Планшеты и маленькие ноутбуки
+@media (min-width: 481px) and (max-width: 1024px) {
+  .auth-card {
+    max-width: 380px;
+    padding: 35px;
+  }
+}
+
+.auth-title {
+  color: white;
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+// Дополнение для мобильной адаптации
+@media (max-width: 480px) {
+  .auth-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+}

@@ -37,4 +37,8 @@ body {
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
