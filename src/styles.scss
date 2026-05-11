@@ -1,22 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+/* Глобальные стили для Sirr */
+
 :root {
-  --bg-main: #07130d;
-  --bg-secondary: #0d1f16;
-  --bg-surface: #123222;
-  --bg-card: #173d2a;
+  /* Основные фоновые цвета */
+  --bg-main: #080A09;      /* Почти чёрный */
+  --bg-secondary: #101513; /* Тёмный graphite (для панелей) */
+  --bg-surface: #101513;   /* Surface */
+  --bg-card: #101513;
 
-  --brand-dark: #0b5d3a;
-  --brand-main: #0f8a4b;
-  --brand-light: #19b45b;
-  --brand-bright: #35d46e;
+  /* Сочные зеленые (Deep Green & Rich Green) */
+  --brand-main: #007808;   /* Primary: Deep green */
+  --brand-bright: #00A310; /* Accent: Bright rich green */
+  --brand-light: #19C126;  /* Hover: Soft glow green */
+  
+  /* Цвета текста */
+  --text-main: #E9F5EA;    /* Light text */
+  --text-secondary: #A8B4AA; /* Secondary text: Брайтер серый */
+  --text-muted: #6B7772;   /* Muted text: Даркер серый */
 
-  --text-main: #ffffff;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
+  /* Дополнительные элементы */
+  --border: #1A231E;
+  --hover: #19C126;
+  
 
-  --border: #1e4d36;
-  --hover: #21563d;
-  --brand-gradient: linear-gradient(135deg, #0b5d3a 0%, #0f8a4b 50%, #19b45b 100%);
+  --brand-color: linear-gradient(135deg, #007808 0%);
 }
 
 *,
@@ -25,20 +31,49 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
 }
 
 html,
 body {
   width: 100%;
-  min-height: 100%;
+  height: 100%; /* Для корректного отображения в Angular */
 }
 
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
-  background-color: var(--bg-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Вспомогательный класс для кнопок или активных чатов */
+.active-item {
+  background-color: var(--brand-main);
+  color: var(--text-main);
+  transition: background-color 0.2s ease;
+}
+
+.active-item:hover {
+  background-color: var(--hover);
+}
+
+/* Улучшенный текст для лучшей видимости */
+h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+p, span, label {
+  color: var(--text-main);
+}
+
+/* Кнопки и ссылки */
+button, a {
+  transition: all 0.2s ease;
+}
+
+/* Фокус для доступности */
+*:focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 2px;
+}

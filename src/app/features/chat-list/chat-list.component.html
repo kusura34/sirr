@@ -22,7 +22,7 @@
         class="user-item"
         (click)="startChat(user)"
       >
-        <img [src]="user.photoURL" class="mini-avatar" />
+        <img [src]="user.photoURL || '/images/avatar-placeholder.jpg'" class="mini-avatar" />
         <span>{{ user.displayName }}</span>
       </div>
     </div>

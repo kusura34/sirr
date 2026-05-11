@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, ViewChild, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { UsersService } from '../../shared/services/user-service/user.service';
 import { ChatItem } from '../../shared/data/chats.data';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-chat-list',
@@ -28,7 +29,7 @@ export class ChatListComponent implements OnInit {
   
   search: string = '';
   chats: ChatItem[] = [];
-  searchResults: any[] = [];
+  searchResults: User[] = [];
   loading = true;
   isSearching = false;
 
@@ -42,11 +43,6 @@ export class ChatListComponent implements OnInit {
           .subscribe((chats) => {
             this.chats = chats;
             this.loading = false;
-
-            // Если есть хотя бы один чат и открыт placeholder - сразу открываем первый
-            if (chats.length > 0 && this.router.url === '/chat') {
-              this.router.navigate(['/chat', chats[0].id], { replaceUrl: true });
-            }
           });
       } else {
         this.chats = [];
@@ -112,7 +108,7 @@ export class ChatListComponent implements OnInit {
           id: chatId,
           name: user.displayName || user.email,
           lastMessage: '',
-          avatar: user.photoURL || 'images/avatar-placeholder.jpg',
+          avatar: user.photoURL || '/images/avatar-placeholder.jpg',
           online: false,
           timestamp: new Date(),
           unreadCount: 0
@@ -123,7 +119,7 @@ export class ChatListComponent implements OnInit {
           id: chatId,
           name: currentUser.displayName || currentUser.email || 'Unknown',
           lastMessage: '',
-          avatar: currentUser.photoURL || 'images/avatar-placeholder.jpg',
+          avatar: currentUser.photoURL || '/images/avatar-placeholder.jpg',
           online: true,
           timestamp: new Date(),
           unreadCount: 0

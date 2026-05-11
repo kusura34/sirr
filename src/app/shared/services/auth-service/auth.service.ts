@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import {
   Auth,
+  onAuthStateChanged,
   user,
   GoogleAuthProvider,
   signInWithPopup,
@@ -11,14 +12,27 @@ import {
   sendEmailVerification,
 } from "@angular/fire/auth";
 import { doc, Firestore, setDoc, updateDoc } from "@angular/fire/firestore";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private auth = inject(Auth);
   private firestore = inject(Firestore)
+  private authInitialized = new BehaviorSubject(false);
+
+  constructor() {
+    onAuthStateChanged(this.auth, () => {
+      if (!this.authInitialized.value) {
+        this.authInitialized.next(true);
+      }
+    });
+  }
 
   // Стрим пользователя для всего приложения
   user$ = user(this.auth);
+
+  // Стрим готовности auth-состояния
+  authReady$ = this.authInitialized.asObservable();
 
   // Сохраняем пользователя в Firestore
   private async saveUserToDatabase(firebaseUser: any) {
@@ -30,17 +44,17 @@ export class AuthService {
         uid: firebaseUser.uid,
         email: firebaseUser.email?.toLowerCase() || '',
         displayName: firebaseUser.displayName || 'User',
-        photoURL: firebaseUser.photoURL || "assets/img/avatar.png",
+        photoURL: firebaseUser.photoURL || "/images/avatar-placeholder.jpg",
         isOnline: true,
         lastSeen: new Date(),
         lastUpdated: new Date(),
       };
 
-      console.log('💾 Сохраняю пользователя в Firestore:', userData);
+      console.log('Сохранение пользователя в Firestore:', userData);
       await setDoc(userDoc, userData, { merge: true });
-      console.log('✅ Пользователь успешно сохранен в Firestore');
+      console.log('Пользователь успешно сохранен');
     } catch (error) {
-      console.error('❌ Ошибка при сохранении пользователя:', error);
+      console.error('Ошибка при сохранении пользователя:', error);
     }
   }
 
