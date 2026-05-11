@@ -42,3 +42,18 @@
     }
   }
 }
+
+@media (max-width: 770px) {
+  .placeholder {
+    display: none;
+    padding: 16px;
+
+    .logo {
+      width: 120px;
+    }
+
+    h1 {
+      font-size: 18px;
+    }
+  }
+}
