@@ -8,10 +8,34 @@
 
 .sidebar {
   flex-shrink: 0;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-window {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-layout {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 200px;
+  }
 }

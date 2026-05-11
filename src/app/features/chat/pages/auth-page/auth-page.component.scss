@@ -53,6 +53,28 @@
       border-color: #FFFFFF;
     }
   }
+
+  .password-wrapper {
+    position: relative;
+
+    input {
+      padding-right: 88px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 0.8rem;
+      cursor: pointer;
+      opacity: 0.9;
+      padding: 4px 6px;
+    }
+  }
 }
 
 .btn-primary {

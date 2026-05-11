@@ -22,6 +22,7 @@ app-chat-input {
   position: sticky;
   bottom: 0;
   z-index: 5;
+  background-color: var(--bg-main);
 }
 
 .messages-viewport {
@@ -47,14 +48,6 @@ app-chat-input {
     min-height: 100%;
   }
 
-  app-chat-header {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 30;
-  }
-
   app-chat-input {
     position: fixed;
     left: 0;
@@ -66,11 +59,10 @@ app-chat-input {
   .messages-viewport {
     padding: 12px;
     gap: 10px;
-    padding-top: 68px;
     padding-bottom: 88px;
   }
 
   app-chat-input {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
 }

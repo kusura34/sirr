@@ -10,4 +10,5 @@ import { RouterLink } from "@angular/router";
 })
 export class ChatHeaderComponent {
   @Input() chatName: string | null = '';
+  @Input() isOnline: boolean | null = false;
 }

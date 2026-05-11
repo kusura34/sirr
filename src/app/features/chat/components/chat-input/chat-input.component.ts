@@ -21,10 +21,6 @@ export class ChatInputComponent {
     }
   }
 
-  keepKeyboardOpen(event: Event) {
-    event.preventDefault();
-  }
-
   private focusInput() {
     setTimeout(() => this.messageInput?.nativeElement.focus(), 0);
   }

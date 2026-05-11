@@ -1,17 +1,22 @@
 .message-container {
   display: flex;
   width: 100%;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+  padding: 0 16px;
 
   .bubble {
     max-width: 70%;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 12px;
     background-color: var(--bg-card);
     color: var(--text-main);
     position: relative;
-    font-family: "Inter", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     border: 1px solid var(--border);
+    word-wrap: break-word;
+    word-break: break-word;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
   &.mine {
@@ -21,6 +26,15 @@
       background: var(--brand-gradient);
       border-bottom-right-radius: 2px;
       border-color: var(--brand-main);
+      color: white;
+    }
+  }
+
+  &.other {
+    justify-content: flex-start;
+
+    .bubble {
+      border-bottom-left-radius: 2px;
     }
   }
 
@@ -32,17 +46,56 @@
     font-size: 0.7rem;
     opacity: 0.7;
     margin-top: 4px;
+    color: var(--text-secondary);
   }
 
   .text {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
   }
 }
 
 @media (max-width: 768px) {
   .message-container {
+    padding: 0 12px;
+    margin-bottom: 6px;
+
     .bubble {
-      max-width: 86%;
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+
+    .meta {
+      font-size: 0.65rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .message-container {
+    padding: 0 8px;
+    margin-bottom: 4px;
+
+    .bubble {
+      max-width: 85%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+
+      &.mine {
+        border-bottom-right-radius: 1px;
+      }
+
+      &.other {
+        border-bottom-left-radius: 1px;
+      }
+    }
+
+    .meta {
+      font-size: 0.6rem;
+      margin-top: 2px;
     }
   }
 }

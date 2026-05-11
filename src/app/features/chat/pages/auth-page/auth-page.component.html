@@ -22,7 +22,17 @@
 
       <div class="input-group">
         <label>Пароль</label>
-        <input type="password" formControlName="password">
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Скрыть пароль' : 'Показать пароль'"
+          >
+            {{ showPassword ? 'Скрыть' : 'Показать' }}
+          </button>
+        </div>
       </div>
 
       <button type="submit" class="btn-primary" [disabled]="authForm.invalid">
