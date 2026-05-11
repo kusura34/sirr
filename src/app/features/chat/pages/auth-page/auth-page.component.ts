@@ -26,6 +26,7 @@ export class AuthPageComponent {
   // Режим: true — вход, false — регистрация
   isLoginMode = true;
   isClicked = false;
+  showPassword = false;
 
   authForm = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
@@ -52,6 +53,10 @@ export class AuthPageComponent {
     this.authForm.updateValueAndValidity();
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   async loginGoogle() {
     try {
       await this.authService.loginWithGoogle();
@@ -71,25 +76,21 @@ export class AuthPageComponent {
         await this.authService.signIn(email!, password!);
         this.router.navigate(["/chat"]);
       } else {
-        // Регистрация
+
         await this.authService.signUp(email!, password!, displayName || "User");
 
-        // Показываем сообщение вместо мгновенного редиректа
+
         this.snackBar.open(
           "Аккаунт создан! Пожалуйста, проверьте почту и подтвердите e-mail перед входом. ПРОВЕРЬТЕ РАЗДЕЛ СПАМА",
           "ок",
-          {
-            duration: 5000,
-          },
         );
-        this.isLoginMode = true; // Переключаем на вход
+        this.isLoginMode = true;
         this.authForm.reset();
         this.authForm.get("displayName")?.clearValidators();
         this.authForm.get("displayName")?.updateValueAndValidity();
         this.authForm.updateValueAndValidity();
       }
     } catch (e: any) {
-      // Обработка ошибок Firebase (например, если почта уже занята)
       if (e.code === "auth/email-already-in-use") {
         this.snackBar.open("Этот email уже занят.", "Ок", { duration: 3500 });
       } else {

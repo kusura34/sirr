@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, query, orderBy, collectionData, Timestamp, getDocs, doc, setDoc, getDoc, docData, updateDoc, increment } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, orderBy, collectionData, Timestamp, getDocs, doc, setDoc, getDoc, docData, increment } from '@angular/fire/firestore';
 import { Observable, combineLatest, of, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from '../../models/message/message.interface';
@@ -52,11 +52,11 @@ export class ChatService {
     await Promise.all(
       participantIds.map(async (userId) => {
         const chatDocRef = doc(this.firestore, `users/${userId}/chats/${chatId}`);
-        await updateDoc(chatDocRef, {
+        await setDoc(chatDocRef, {
           lastMessage: text,
           timestamp,
           unreadCount: userId === senderId ? 0 : increment(1)
-        });
+        }, { merge: true });
       })
     );
   }
@@ -184,9 +184,9 @@ export class ChatService {
     }
 
     const chatDocRef = doc(this.firestore, `users/${userId}/chats/${chatId}`);
-    await updateDoc(chatDocRef, {
+    await setDoc(chatDocRef, {
       unreadCount: 0
-    });
+    }, { merge: true });
   }
 
   getUserStatus(userId: string): Observable<boolean> {
