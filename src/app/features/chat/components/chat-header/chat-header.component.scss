@@ -3,7 +3,7 @@
   padding: 0 20px;
   display: flex;
   align-items: center;
-  background: var(--brand-gradient);
+  background: var(--brand-color);
   border-bottom: 1px solid var(--border);
   z-index: 10;
 
@@ -86,7 +86,7 @@
         margin: 0;
 
         &.online {
-          color: var(--brand-bright);
+          color: var(--text-secondary);
         }
       }
     }

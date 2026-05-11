@@ -1,13 +1,14 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { combineLatest, map, of, switchMap, take } from 'rxjs';
+import { catchError, concat, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatHeaderComponent } from '../chat-header/chat-header.component';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
 import { ChatService } from '../../../../shared/services/chat-service/chat.service';
 import { AuthService } from '../../../../shared/services/auth-service/auth.service';
+import { Message } from '../../../../shared/models/message/message.interface';
 
 @Component({
   selector: 'app-chat-window',
@@ -53,8 +54,115 @@ export class ChatWindowComponent {
   );
   
   messages$ = this.chatId$.pipe(
-    switchMap(id => this.chatService.getMessages(id))
+    switchMap(id => {
+      if (!id) {
+        return of([] as Message[]);
+      }
+
+      const cached = this.loadCachedMessages(id);
+      const backend$ = this.chatService.getMessages(id).pipe(
+        tap(messages => this.saveCachedMessages(id, messages)),
+        catchError(() => of(cached))
+      );
+
+      return cached.length ? concat(of(cached), backend$) : backend$;
+    })
   );
+
+  private getCacheKey(chatId: string) {
+    return `sirr-chat-cache-${chatId}`;
+  }
+
+  private serializeTimestamp(timestamp: any): any {
+    if (!timestamp) {
+      return null;
+    }
+
+    if (typeof timestamp.toDate === 'function') {
+      return {
+        seconds: timestamp.seconds,
+        nanoseconds: timestamp.nanoseconds,
+      };
+    }
+
+    if (timestamp instanceof Date) {
+      return { time: timestamp.getTime() };
+    }
+
+    if (typeof timestamp === 'number') {
+      return { time: timestamp };
+    }
+
+    if (timestamp.seconds != null && timestamp.nanoseconds != null) {
+      return {
+        seconds: timestamp.seconds,
+        nanoseconds: timestamp.nanoseconds,
+      };
+    }
+
+    return null;
+  }
+
+  private deserializeTimestamp(value: any): any {
+    if (!value) {
+      return null;
+    }
+
+    if (value.time != null) {
+      const time = value.time;
+      return {
+        toDate: () => new Date(time),
+      };
+    }
+
+    if (value.seconds != null && value.nanoseconds != null) {
+      const ms = value.seconds * 1000 + Math.floor(value.nanoseconds / 1e6);
+      return {
+        toDate: () => new Date(ms),
+      };
+    }
+
+    return value;
+  }
+
+  private serializeMessages(messages: Message[]): any[] {
+    return messages.map(message => ({
+      ...message,
+      timestamp: this.serializeTimestamp(message.timestamp)
+    }));
+  }
+
+  private deserializeMessages(raw: any[]): Message[] {
+    return raw.map(item => ({
+      ...item,
+      timestamp: this.deserializeTimestamp(item.timestamp)
+    }));
+  }
+
+  private loadCachedMessages(chatId: string): Message[] {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return [];
+    }
+
+    try {
+      const raw = window.localStorage.getItem(this.getCacheKey(chatId));
+      return raw ? this.deserializeMessages(JSON.parse(raw)) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveCachedMessages(chatId: string, messages: Message[]) {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return;
+    }
+
+    try {
+      window.localStorage.setItem(this.getCacheKey(chatId), JSON.stringify(this.serializeMessages(messages)));
+    } catch {
+      // ignore localStorage errors
+    }
+  }
 
   constructor() {
     combineLatest([this.myId$, this.chatId$])

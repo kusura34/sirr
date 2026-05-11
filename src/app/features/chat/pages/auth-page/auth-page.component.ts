@@ -9,12 +9,12 @@ import { Router } from "@angular/router";
 import { AuthService } from "../../../../shared/services/auth-service/auth.service";
 import { CommonModule } from "@angular/common";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+
 
 @Component({
   selector: "app-auth-page",
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatSnackBarModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: "./auth-page.component.html",
   styleUrl: "./auth-page.component.scss",
 })
