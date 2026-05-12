@@ -169,3 +169,11 @@
     }
   }
 }
+
+@media (min-width: 769px) {
+  .chat-header {
+    .back-button {
+      display: none;
+    }
+  }
+}

@@ -1,7 +1,11 @@
-<div class="app-layout">
-  <!-- <app-chat-list class="sidebar"></app-chat-list> -->
+<div class="app-layout" *ngIf="authReady$ | async; else loading">
   <main class="chat-window">
-    <!-- Здесь живет ваш хедер, список сообщений и инпут -->
-    <router-outlet></router-outlet> 
+    <router-outlet></router-outlet>
   </main>
 </div>
+
+<ng-template #loading>
+  <div class="app-loading-screen">
+    <div class="loader"></div>
+  </div>
+</ng-template>

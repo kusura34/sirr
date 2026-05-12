@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { ChatPageComponent } from "./features/chat/pages/chat-page/chat-page.component";
-import { ChatListComponent } from "./features/chat-list/chat-list.component";
+import { AuthService } from './shared/services/auth-service/auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [ RouterOutlet],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  
+  authReady$ = inject(AuthService).authReady$;
 }

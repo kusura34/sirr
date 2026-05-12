@@ -49,13 +49,14 @@
 
     .chat-area {
       display: none;
-      // flex: 1;
-      // min-height: 0;
-      // background-color: var(--bg-main);
     }
   }
 
   .chat-layout.chat-opened {
+    .chat-area {
+      display: flex;
+    }
+
     .chat-list {
       display: none;
     }

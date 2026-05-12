@@ -25,8 +25,19 @@ export class ChatWindowComponent {
   
   myId$ = this.authService.user$.pipe(map(user => user?.uid || 'unknown'));
   chatId$ = this.route.params.pipe(map(p => p['id']));
+  
   participantId$ = combineLatest([this.myId$, this.chatId$]).pipe(
-    map(([myId, chatId]) => chatId?.split('_').find((id: string) => id && id !== myId) ?? '')
+    switchMap(([myId, chatId]) => {
+      if (!myId || myId === 'unknown' || !chatId) {
+        return of('');
+      }
+      return this.chatService.getChatInfoStream(chatId).pipe(
+        map(chatInfo => {
+          const participants = chatInfo?.participants || [];
+          return participants.find(id => id && id !== myId) || '';
+        })
+      );
+    })
   );
   chatInfo$ = combineLatest([this.myId$, this.chatId$]).pipe(
     switchMap(([myId, chatId]) => {

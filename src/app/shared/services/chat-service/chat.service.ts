@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, query, orderBy, collectionData, Timestamp, getDocs, doc, setDoc, getDoc, docData, increment } from '@angular/fire/firestore';
-import { Observable, combineLatest, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, of, switchMap, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from '../../models/message/message.interface';
 import { ChatItem } from '../../data/chats.data';
@@ -37,6 +37,28 @@ export class ChatService {
     );
   }
 
+  async getChatInfo(chatId: string): Promise<{participants: string[]} | null> {
+    try {
+      const chatDocRef = doc(this.firestore, `chats/${chatId}`);
+      const snapshot = await getDoc(chatDocRef);
+      if (!snapshot.exists()) {
+        return null;
+      }
+      return snapshot.data() as {participants: string[]};
+    } catch (error) {
+      console.error('Ошибка при получении информации о чате:', error);
+      return null;
+    }
+  }
+
+  getChatInfoStream(chatId: string): Observable<{participants: string[]} | null> {
+    const chatDocRef = doc(this.firestore, `chats/${chatId}`);
+    return docData(chatDocRef).pipe(
+      map(data => data ? (data as {participants: string[]}) : null),
+      catchError(() => of(null))
+    );
+  }
+
   async sendMessage(chatId: string, text: string, senderId: string) {
     const ref = collection(this.firestore, `chats/${chatId}/messages`);
     await addDoc(ref, {
@@ -46,7 +68,9 @@ export class ChatService {
       timestamp: Timestamp.now()
     });
 
-    const participantIds = chatId.split('_').filter(Boolean);
+    // Получаем участников из документа чата
+    const chatInfo = await this.getChatInfo(chatId);
+    const participantIds = chatInfo?.participants || [];
     const timestamp = Timestamp.now();
 
     await Promise.all(
@@ -71,35 +95,13 @@ export class ChatService {
       for (const chatDoc of snapshot.docs) {
         const chatData = chatDoc.data();
         const chatId = chatDoc.id;
-        const participantId = chatId
-          .split('_')
-          .find((id) => id && id !== userId);
-
-        let resolvedName = chatData['name'] || 'Unknown';
-        let resolvedAvatar = chatData['avatar'] || 'images/avatar-placeholder.jpg';
-        let resolvedOnline = !!chatData['online'];
-
-        if (participantId) {
-          try {
-            const participantDocRef = doc(this.firestore, `users/${participantId}`);
-            const participantSnap = await getDoc(participantDocRef);
-            if (participantSnap.exists()) {
-              const participantData = participantSnap.data();
-              resolvedName = participantData['displayName'] || participantData['email'] || resolvedName;
-              resolvedAvatar = participantData['photoURL'] || resolvedAvatar;
-              resolvedOnline = !!participantData['isOnline'];
-            }
-          } catch (error) {
-            console.warn('Не удалось загрузить данные собеседника:', error);
-          }
-        }
 
         chats.push({
           id: chatId,
-          name: resolvedName,
+          name: chatData['name'] || 'Unknown',
           lastMessage: chatData['lastMessage'] || '',
-          avatar: resolvedAvatar,
-          online: resolvedOnline,
+          avatar: chatData['avatar'] || '/images/avatar-placeholder.jpg',
+          online: !!chatData['online'],
           timestamp: chatData['timestamp']?.toDate?.() || new Date(),
           unreadCount: chatData['unreadCount'] || 0
         });
@@ -111,7 +113,47 @@ export class ChatService {
     }
   }
 
-  // Создает новый чат для пользователя
+  // Создает новый чат в главной коллекции и возвращает ID
+  async createNewChat(userId1: string, userId2: string, user1Data: any, user2Data: any): Promise<string> {
+    try {
+      const chatsRef = collection(this.firestore, 'chats');
+      const docRef = await addDoc(chatsRef, {
+        participants: [userId1, userId2],
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      });
+
+      const chatId = docRef.id;
+
+      // Теперь добавляем ссылку в профили обоих пользователей
+      const chatDocRef1 = doc(this.firestore, `users/${userId1}/chats/${chatId}`);
+      const chatDocRef2 = doc(this.firestore, `users/${userId2}/chats/${chatId}`);
+
+      await Promise.all([
+        setDoc(chatDocRef1, {
+          name: user2Data.displayName || user2Data.email,
+          avatar: user2Data.photoURL || '/images/avatar-placeholder.jpg',
+          lastMessage: '',
+          timestamp: Timestamp.now(),
+          unreadCount: 0
+        }),
+        setDoc(chatDocRef2, {
+          name: user1Data.displayName || user1Data.email || 'Unknown',
+          avatar: user1Data.photoURL || '/images/avatar-placeholder.jpg',
+          lastMessage: '',
+          timestamp: Timestamp.now(),
+          unreadCount: 0
+        })
+      ]);
+
+      return chatId;
+    } catch (error) {
+      console.error('Ошибка при создании чата:', error);
+      throw error;
+    }
+  }
+
+  // Создает новый чат для пользователя (используется для обратной совместимости)
   async createChat(userId: string, chatId: string, chatData: ChatItem): Promise<void> {
     try {
       const chatDocRef = doc(this.firestore, `users/${userId}/chats/${chatId}`);
@@ -150,32 +192,8 @@ export class ChatService {
   }
 
   getEnrichedUserChatsStream(userId: string): Observable<ChatItem[]> {
-    return this.getUserChatsStream(userId).pipe(
-      map((chats) =>
-        chats.map((chat) => {
-          const participantId = chat.id.split('_').find((id) => id && id !== userId) || '';
-          return { chat, participantId };
-        })
-      ),
-      // keep stream stable for empty state
-      switchMap((pairs) => {
-        if (!pairs.length) {
-          return of([] as ChatItem[]);
-        }
-
-        return combineLatest(
-          pairs.map(({ chat, participantId }) =>
-            this.getUserProfile(participantId).pipe(
-              map((profile) => ({
-                ...chat,
-                name: profile?.displayName || profile?.email || chat.name,
-                avatar: profile?.photoURL || chat.avatar
-              }))
-            )
-          )
-        );
-      })
-    );
+    // Данные уже обогащены в users/{userId}/chats/{chatId}, просто возвращаем поток
+    return this.getUserChatsStream(userId);
   }
 
   async markChatAsRead(userId: string, chatId: string): Promise<void> {

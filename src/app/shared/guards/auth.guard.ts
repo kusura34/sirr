@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service/auth.service';
-import { map, switchMap, take } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -9,7 +9,10 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return authService.authReady$.pipe(
     take(1),
-    switchMap(() => authService.user$.pipe(take(1))),
+    switchMap(() => authService.user$.pipe(
+      filter((user) => user !== undefined),
+      take(1)
+    )),
     map((user) => {
       if (user) {
         if (user.emailVerified) {

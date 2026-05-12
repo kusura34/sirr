@@ -100,36 +100,13 @@ export class ChatListComponent implements OnInit {
       this.authService.user$.pipe(take(1)).subscribe(async currentUser => {
         if (!currentUser) return;
 
-        // Генерируем ID чата на основе обоих пользователей
-        const chatId = [currentUser.uid, user.uid].sort().join('_');
-
-        // Добавляем чат в список чатов текущего пользователя
-        const chatDataForCurrentUser: ChatItem = {
-          id: chatId,
-          name: user.displayName || user.email,
-          lastMessage: '',
-          avatar: user.photoURL || '/images/avatar-placeholder.jpg',
-          online: false,
-          timestamp: new Date(),
-          unreadCount: 0
-        };
-
-        // И зеркальный чат у собеседника, чтобы он тоже видел диалог
-        const chatDataForRecipient: ChatItem = {
-          id: chatId,
-          name: currentUser.displayName || currentUser.email || 'Unknown',
-          lastMessage: '',
-          avatar: currentUser.photoURL || '/images/avatar-placeholder.jpg',
-          online: true,
-          timestamp: new Date(),
-          unreadCount: 0
-        };
-
-        // Сохраняем чат в Firestore для обоих пользователей
-        await Promise.all([
-          this.chatService.createChat(currentUser.uid, chatId, chatDataForCurrentUser),
-          this.chatService.createChat(user.uid, chatId, chatDataForRecipient),
-        ]);
+        // Создаём чат с новым коротким ID, генерируемым Firestore
+        const chatId = await this.chatService.createNewChat(
+          currentUser.uid,
+          user.uid,
+          currentUser,
+          user
+        );
 
         // Очищаем результаты поиска
         this.searchResults = [];
